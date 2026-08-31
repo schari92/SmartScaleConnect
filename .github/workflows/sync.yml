@@ -18,10 +18,25 @@ jobs:
         with:
           go-version: '1.24'
 
-      - name: Run SmartScaleConnect Sync
+      - name: Create config file
         env:
           GARMIN_USERNAME: ${{ secrets.GARMIN_USERNAME }}
           GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
           SCALE_APP_EMAIL: ${{ secrets.SCALE_APP_EMAIL }}
           SCALE_APP_PASSWORD: ${{ secrets.SCALE_APP_PASSWORD }}
-        run: go run main.go --fitdays --garmin
+        run: |
+          cat <<EOF > config.json
+          {
+            "fitdays": {
+              "email": "$SCALE_APP_EMAIL",
+              "password": "$SCALE_APP_PASSWORD"
+            },
+            "garmin": {
+              "email": "$GARMIN_USERNAME",
+              "password": "$GARMIN_PASSWORD"
+            }
+          }
+          EOF
+
+      - name: Run SmartScaleConnect Sync
+        run: go run main.go -c config.json
