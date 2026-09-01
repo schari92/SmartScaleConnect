@@ -28,13 +28,14 @@ jobs:
           cat <<EOF > config.json
           {
             "fitdays": {
-              "users": [
-                {
-                  "email": "$SCALE_APP_EMAIL",
-                  "password": "$SCALE_APP_PASSWORD",
-                  "destinations": ["garmin"]
-                }
-              ]
+              "email": "$SCALE_APP_EMAIL",
+              "password": "$SCALE_APP_PASSWORD",
+              "destinations": ["garmin"]
+            },
+            "aphealth": {
+              "email": "$SCALE_APP_EMAIL",
+              "password": "$SCALE_APP_PASSWORD",
+              "destinations": ["garmin"]
             },
             "garmin": {
               "email": "$GARMIN_USERNAME",
