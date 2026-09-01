@@ -3,8 +3,8 @@ name: Smart Scale Sync
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 5 * * 1-5'
-    - cron: '0 7 * * 0,6'
+    - cron: '0 5 * * 1-5'   # 05:00 UTC = 06:00 Uhr MEZ (Winter) / 07:00 Uhr MESZ (Sommer)
+    - cron: '0 8 * * 0,6'   # 08:00 UTC = 09:00 Uhr MEZ (Winter) / 10:00 Uhr MESZ (Sommer)
 
 jobs:
   sync:
@@ -37,4 +37,4 @@ jobs:
           EOF
 
       - name: Run SmartScaleConnect Sync
-        run: go run main.go -c config.yml --debug
+        run: go run main.go -c config.yml
