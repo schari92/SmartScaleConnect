@@ -45,4 +45,4 @@ jobs:
           EOF
 
       - name: Run SmartScaleConnect Sync
-        run: go run main.go -c config.json
+        run: go run main.go -v -c config.json
