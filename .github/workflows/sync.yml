@@ -28,14 +28,13 @@ jobs:
           cat <<EOF > config.json
           {
             "fitdays": {
-              "email": "$SCALE_APP_EMAIL",
-              "password": "$SCALE_APP_PASSWORD",
-              "destinations": ["garmin"]
-            },
-            "aphealth": {
-              "email": "$SCALE_APP_EMAIL",
-              "password": "$SCALE_APP_PASSWORD",
-              "destinations": ["garmin"]
+              "users": [
+                {
+                  "email": "$SCALE_APP_EMAIL",
+                  "password": "$SCALE_APP_PASSWORD",
+                  "destinations": ["garmin"]
+                }
+              ]
             },
             "garmin": {
               "email": "$GARMIN_USERNAME",
@@ -45,4 +44,4 @@ jobs:
           EOF
 
       - name: Run SmartScaleConnect Sync
-        run: go run main.go -i -c config.json
+        run: go run main.go -c config.json
