@@ -30,10 +30,10 @@ jobs:
               fitdays:
                 email: "SCALE_EMAIL_PLACEHOLDER"
                 password: "SCALE_PASSWORD_PLACEHOLDER"
-            to: garmin
-          garmin:
-            email: "GARMIN_USERNAME_PLACEHOLDER"
-            password: "GARMIN_PASSWORD_PLACEHOLDER"
+            to:
+              garmin:
+                email: "GARMIN_USERNAME_PLACEHOLDER"
+                password: "GARMIN_PASSWORD_PLACEHOLDER"
           EOF
           sed -i "s|SCALE_EMAIL_PLACEHOLDER|${SCALE_APP_EMAIL}|g" config.yml
           sed -i "s|SCALE_PASSWORD_PLACEHOLDER|${SCALE_APP_PASSWORD}|g" config.yml
