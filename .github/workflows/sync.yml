@@ -26,16 +26,11 @@ jobs:
           SCALE_APP_PASSWORD: ${{ secrets.SCALE_APP_PASSWORD }}
         run: |
           cat << 'EOF' > config.yml
-          fitdays_sync:
-            from:
-              - fitdays:
-                  email: "SCALE_EMAIL_PLACEHOLDER"
-                  password: "SCALE_PASSWORD_PLACEHOLDER"
-            to: garmin
-
-          garmin:
-            email: "GARMIN_USERNAME_PLACEHOLDER"
-            password: "GARMIN_PASSWORD_PLACEHOLDER"
+          fitdays: "SCALE_EMAIL_PLACEHOLDER:SCALE_PASSWORD_PLACEHOLDER"
+          garmin: "GARMIN_USERNAME_PLACEHOLDER:GARMIN_PASSWORD_PLACEHOLDER"
+          sync:
+            - from: fitdays
+              to: garmin
           EOF
           sed -i "s|SCALE_EMAIL_PLACEHOLDER|${SCALE_APP_EMAIL}|g" config.yml
           sed -i "s|SCALE_PASSWORD_PLACEHOLDER|${SCALE_APP_PASSWORD}|g" config.yml
