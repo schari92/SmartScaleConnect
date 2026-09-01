@@ -2,6 +2,9 @@ name: Smart Scale Sync
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 5 * * 1-5'   # 05:00 UTC = 06:00 Uhr MEZ / 07:00 Uhr MESZ
+    - cron: '0 8 * * 0,6'   # 08:00 UTC = 09:00 Uhr MEZ / 10:00 Uhr MESZ
 
 jobs:
   sync:
@@ -10,11 +13,34 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Inspect Config Examples & Code
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+
+      - name: Create config file
+        env:
+          GARMIN_USERNAME: ${{ secrets.GARMIN_USERNAME }}
+          GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
+          SCALE_APP_EMAIL: ${{ secrets.SCALE_APP_EMAIL }}
+          SCALE_APP_PASSWORD: ${{ secrets.SCALE_APP_PASSWORD }}
         run: |
-          echo "=== CONFIG EXAMPLES / FILES ==="
-          find . -maxdepth 2 -name "*.yml" -o -name "*.yaml" -o -name "*.example*"
-          echo "=== CONTENT OF ANY CONFIG EXAMPLE ==="
-          cat config.example.yml || cat config.yml.example || true
-          echo "=== HELP / USAGE OUTPUT ==="
-          go run main.go --help || true
+          cat << 'EOF' > config.yml
+          jobs:
+            - from: fitdays
+              to: garmin
+          modules:
+            fitdays:
+              email: "SCALE_EMAIL_PLACEHOLDER"
+              password: "SCALE_PASSWORD_PLACEHOLDER"
+            garmin:
+              email: "GARMIN_USERNAME_PLACEHOLDER"
+              password: "GARMIN_PASSWORD_PLACEHOLDER"
+          EOF
+          sed -i "s|SCALE_EMAIL_PLACEHOLDER|${SCALE_APP_EMAIL}|g" config.yml
+          sed -i "s|SCALE_PASSWORD_PLACEHOLDER|${SCALE_APP_PASSWORD}|g" config.yml
+          sed -i "s|GARMIN_USERNAME_PLACEHOLDER|${GARMIN_USERNAME}|g" config.yml
+          sed -i "s|GARMIN_PASSWORD_PLACEHOLDER|${GARMIN_PASSWORD}|g" config.yml
+
+      - name: Run SmartScaleConnect Sync
+        run: go run main.go -c config.yml
