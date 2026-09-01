@@ -29,7 +29,8 @@ jobs:
           {
             "fitdays": {
               "email": "$SCALE_APP_EMAIL",
-              "password": "$SCALE_APP_PASSWORD"
+              "password": "$SCALE_APP_PASSWORD",
+              "destinations": ["garmin"]
             },
             "garmin": {
               "email": "$GARMIN_USERNAME",
