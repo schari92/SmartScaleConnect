@@ -26,17 +26,14 @@ jobs:
           SCALE_APP_PASSWORD: ${{ secrets.SCALE_APP_PASSWORD }}
         run: |
           cat <<EOF > config.yml
-          from: aphealth
-          to: garmin
-          aphealth:
-            email: "${SCALE_APP_EMAIL}"
-            password: "${SCALE_APP_PASSWORD}"
-          fitdays:
-            email: "${SCALE_APP_EMAIL}"
-            password: "${SCALE_APP_PASSWORD}"
-          garmin:
-            email: "${GARMIN_USERNAME}"
-            password: "${GARMIN_PASSWORD}"
+          from:
+            fitdays:
+              email: "${SCALE_APP_EMAIL}"
+              password: "${SCALE_APP_PASSWORD}"
+          to:
+            garmin:
+              email: "${GARMIN_USERNAME}"
+              password: "${GARMIN_PASSWORD}"
           EOF
 
       - name: Run SmartScaleConnect Sync
