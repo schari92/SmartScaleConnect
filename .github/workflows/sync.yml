@@ -3,8 +3,8 @@ name: Smart Scale Sync
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 5 * * 1-5'   # 05:00 UTC = 06:00 Uhr MEZ (Winter) / 07:00 Uhr MESZ (Sommer)
-    - cron: '0 8 * * 0,6'   # 08:00 UTC = 09:00 Uhr MEZ (Winter) / 10:00 Uhr MESZ (Sommer)
+    - cron: '0 5 * * 1-5'   # 05:00 UTC = 06:00 Uhr MEZ / 07:00 Uhr MESZ
+    - cron: '0 8 * * 0,6'   # 08:00 UTC = 09:00 Uhr MEZ / 10:00 Uhr MESZ
 
 jobs:
   sync:
@@ -26,14 +26,17 @@ jobs:
           SCALE_APP_PASSWORD: ${{ secrets.SCALE_APP_PASSWORD }}
         run: |
           cat <<EOF > config.yml
-          from:
-            fitdays:
-              email: "${SCALE_APP_EMAIL}"
-              password: "${SCALE_APP_PASSWORD}"
-          to:
-            garmin:
-              email: "${GARMIN_USERNAME}"
-              password: "${GARMIN_PASSWORD}"
+          from: aphealth
+          to: garmin
+          aphealth:
+            email: "${SCALE_APP_EMAIL}"
+            password: "${SCALE_APP_PASSWORD}"
+          fitdays:
+            email: "${SCALE_APP_EMAIL}"
+            password: "${SCALE_APP_PASSWORD}"
+          garmin:
+            email: "${GARMIN_USERNAME}"
+            password: "${GARMIN_PASSWORD}"
           EOF
 
       - name: Run SmartScaleConnect Sync
