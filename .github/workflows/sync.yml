@@ -25,16 +25,23 @@ jobs:
           SCALE_APP_EMAIL: ${{ secrets.SCALE_APP_EMAIL }}
           SCALE_APP_PASSWORD: ${{ secrets.SCALE_APP_PASSWORD }}
         run: |
-          cat <<EOF > config.yml
+          cat << 'EOF' > config.yml
           from:
             fitdays:
-              email: "${SCALE_APP_EMAIL}"
-              password: "${SCALE_APP_PASSWORD}"
+              email: "SCALE_EMAIL_PLACEHOLDER"
+              password: "SCALE_PASSWORD_PLACEHOLDER"
+            aphealth:
+              email: "SCALE_EMAIL_PLACEHOLDER"
+              password: "SCALE_PASSWORD_PLACEHOLDER"
           to:
             garmin:
-              email: "${GARMIN_USERNAME}"
-              password: "${GARMIN_PASSWORD}"
+              email: "GARMIN_USERNAME_PLACEHOLDER"
+              password: "GARMIN_PASSWORD_PLACEHOLDER"
           EOF
+          sed -i "s|SCALE_EMAIL_PLACEHOLDER|${SCALE_APP_EMAIL}|g" config.yml
+          sed -i "s|SCALE_PASSWORD_PLACEHOLDER|${SCALE_APP_PASSWORD}|g" config.yml
+          sed -i "s|GARMIN_USERNAME_PLACEHOLDER|${GARMIN_USERNAME}|g" config.yml
+          sed -i "s|GARMIN_PASSWORD_PLACEHOLDER|${GARMIN_PASSWORD}|g" config.yml
 
       - name: Run SmartScaleConnect Sync
         run: go run main.go -c config.yml
