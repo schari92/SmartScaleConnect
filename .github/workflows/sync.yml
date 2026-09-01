@@ -31,7 +31,8 @@ jobs:
               fitdays:
                 email: "SCALE_EMAIL_PLACEHOLDER"
                 password: "SCALE_PASSWORD_PLACEHOLDER"
-            to: "garmin"
+                unit: "kg"
+            to: garmin
           garmin:
             email: "GARMIN_USERNAME_PLACEHOLDER"
             password: "GARMIN_PASSWORD_PLACEHOLDER"
